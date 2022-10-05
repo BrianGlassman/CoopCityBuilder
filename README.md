@@ -1,3 +1,3 @@
 # CoopCityBuilder
 
-# Brian that kills people
+# Kaitlyn that kills people
