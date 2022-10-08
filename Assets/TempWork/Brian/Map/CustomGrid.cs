@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomGrid : MonoBehaviour
 {
-    [SerializeField] private Grid grid;
+    public Grid grid; // TODO should probably be private
 
     /// <summary>
     /// Snaps the target to the nearest grid location
