@@ -13,8 +13,35 @@ public class PlacementIndicator : MonoBehaviour
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private Tile tile;
 
+    [SerializeField] private Tile red;
+    [SerializeField] private Tile blue;
+    [SerializeField] private Tile green;
+
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            tile = red;
+            spriteRenderer.sprite = tile.sprite;
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            tile = green;
+            spriteRenderer.sprite = tile.sprite;
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            tile = blue;
+            spriteRenderer.sprite = tile.sprite;
+        }
+
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.y = 0;
         var cell = grid.grid.WorldToCell(mousePos);
