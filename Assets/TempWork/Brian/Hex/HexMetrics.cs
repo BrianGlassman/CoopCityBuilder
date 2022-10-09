@@ -8,6 +8,9 @@ using UnityEngine;
 //     H: positive to the right
 //     D: positive to the diagonal top-left
 
+/// <summary>
+/// A static class to store commonly referenced values
+/// </summary>
 public static class HexMetrics
 {
     public const float sqrt3 = 1.7320508075688772935274463415058723669428052538103806280558069794f;

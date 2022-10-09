@@ -25,6 +25,11 @@ public class HexGrid : MonoBehaviour
         hexMesh = GetComponentInChildren<HexMesh>();
     }
 
+    private void Start()
+    {
+        hexMesh.Triangulate(cells);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
