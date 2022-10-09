@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class HexGrid : MonoBehaviour
 {
     public static int width = 6;
@@ -22,12 +23,18 @@ public class HexGrid : MonoBehaviour
             }
         }
 
-        hexMesh = GetComponentInChildren<HexMesh>();
+        if (Application.isPlaying)
+        {
+            hexMesh = GetComponentInChildren<HexMesh>();
+        }
     }
 
     private void Start()
     {
-        hexMesh.Triangulate(cells);
+        if (Application.isPlaying)
+        {
+            hexMesh.Triangulate(cells);
+        }
     }
 
     private void OnDrawGizmos()
