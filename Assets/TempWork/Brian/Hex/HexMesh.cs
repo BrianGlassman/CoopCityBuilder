@@ -12,8 +12,6 @@ public class HexMesh : MonoBehaviour
     List<Vector3> vertices;
     List<int> triangles; // Indices into the vertex arrays
 
-    LineRenderer
-
     private void Awake()
     {
         GetComponent<MeshFilter>().mesh = mesh = new Mesh();

@@ -4,20 +4,28 @@ using UnityEngine;
 
 // https://catlikecoding.com/unity/tutorials/hex-map/part-1/
 
+// Coordinate system
+//     H: positive to the right
+//     D: positive to the diagonal top-left
+
 public static class HexMetrics
 {
-    public const float outerRadius = 1f;
-    public const float innerRadius = outerRadius * 0.86602540378443864676f; // sqrt(3) / 2
+    public const float sqrt3 = 1.7320508075688772935274463415058723669428052538103806280558069794f;
+
+    // Distance from center to edge, the inner circle radius
+    public const float edgeRadius = 1.0f;
+    // Distance from center to corner, the outer circle radius
+    public const float cornerRadius = edgeRadius * 2 / sqrt3;
 
     // Orient point up because wide-screen monitors encourage left-right thinking
     public static Vector3[] corners =
     {
-        new Vector3(0f, 0f, outerRadius), // Top
-        new Vector3(innerRadius, 0f, 0.5f*outerRadius), // Top right
-        new Vector3(innerRadius, 0f, -0.5f*outerRadius), // Bottom right
-        new Vector3(0f, 0f, outerRadius), // Bottom
-        new Vector3(-innerRadius, 0f, -0.5f*outerRadius), // Bottom left
-        new Vector3(-innerRadius, 0f, -0.5f*outerRadius), // Top left
-        new Vector3(0f, 0f, outerRadius) // Top again to avoid index problems when closing the loop
+        new Vector3(0f, 0f, cornerRadius), // Top
+        new Vector3(edgeRadius, 0f, 0.5f*cornerRadius), // Top right
+        new Vector3(edgeRadius, 0f, -0.5f*cornerRadius), // Bottom right
+        new Vector3(0f, 0f, -cornerRadius), // Bottom
+        new Vector3(-edgeRadius, 0f, -0.5f*cornerRadius), // Bottom left
+        new Vector3(-edgeRadius, 0f, 0.5f*cornerRadius), // Top left
+        new Vector3(0f, 0f, cornerRadius) // Top again to avoid index problems when closing the loop
     };
 }
