@@ -2,29 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexCell
+[RequireComponent(typeof(MeshCollider))]
+public class HexCell : MonoBehaviour
 {
     // See HexMetrics for coordinate system explanation
     public int H;
     public int D;
 
-    public HexCell(int H, int D)
+    private Mesh mesh;
+    List<Vector3> vertices;
+    List<int> triangles; // Indices into the vertex arrays
+    private MeshCollider coll;
+    public SpriteRenderer spriteRenderer;
+
+    private void Awake()
     {
-        this.H = H;
-        this.D = D;
+        // Configure the mesh
+        {
+            GetComponent<MeshCollider>().sharedMesh = mesh = new Mesh();
+            mesh.name = "Cell Mesh";
+            vertices = new List<Vector3>();
+            triangles = new List<int>();
+            // Triangulate
+            {
+                var center = CellToWorld();
+                for (int i = 0; i < 6; i++)
+                {
+                    AddTriangle(
+                        center,
+                        center + HexMetrics.corners[i],
+                        center + HexMetrics.corners[i + 1]
+                    );
+                }
+            }
+            mesh.vertices = vertices.ToArray();
+            mesh.triangles = triangles.ToArray();
+            mesh.RecalculateNormals();
+        }
     }
 
-    public Vector3 CellToWorld(int cellH, int cellD)
+    /// <summary>
+    /// Adds a triangle to the mesh with vertices at the given locations
+    /// Vertices must be given in order
+    /// </summary>
+    /// <param name="v1"></param>
+    /// <param name="v2"></param>
+    /// <param name="v3"></param>
+    void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
     {
-        Vector3 worldPos;
-        worldPos.x = HexMetrics.edgeRadius * (2 * cellH - cellD);
-        worldPos.y = 0;
-        worldPos.z = HexMetrics.edgeRadius * (cellD * HexMetrics.sqrt3);
-
-        return worldPos;
+        // First index for the new triangles, starting at the end of the existing ones
+        int firstIndex = vertices.Count;
+        triangles.Add(firstIndex);
+        triangles.Add(firstIndex + 1);
+        triangles.Add(firstIndex + 2);
+        vertices.Add(v1);
+        vertices.Add(v2);
+        vertices.Add(v3);
     }
+
     public Vector3 CellToWorld()
     {
-        return CellToWorld(H, D);
+        return HexMetrics.CellToWorld(H, D);
     }
 }

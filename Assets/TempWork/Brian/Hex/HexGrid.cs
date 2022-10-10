@@ -12,19 +12,21 @@ public class HexGrid : MonoBehaviour
 
     private HexCell[] cells = new HexCell[height * width];
 
+    [SerializeField] HexCell hexCellPrefab;
+
     private void Awake()
     {
-        for (int d = 0, i = 0; d < height; d++)
-        {
-            for (int h = 0; h < width; h++)
-            {
-                CreateCell(h, d, i);
-                i++;
-            }
-        }
-
         if (Application.isPlaying)
         {
+            for (int d = 0, i = 0; d < height; d++)
+            {
+                for (int h = 0; h < width; h++)
+                {
+                    CreateCell(h, d, i);
+                    i++;
+                }
+            }
+
             hexMesh = GetComponentInChildren<HexMesh>();
         }
     }
@@ -40,21 +42,26 @@ public class HexGrid : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        foreach (HexCell cell in cells)
+        for (int d = 0; d < height; d++)
         {
-            if (cell is null) continue;
-            
-            for (int i = 0; i < 6; i++)
+            for (int h = 0; h < width; h++)
             {
-                var worldPos = cell.CellToWorld();
-                Gizmos.DrawLine(HexMetrics.corners[i] + worldPos, HexMetrics.corners[i + 1] + worldPos);
+                for (int i = 0; i < 6; i++)
+                {
+                    var worldPos = HexMetrics.CellToWorld(h, d);
+                    Gizmos.DrawLine(HexMetrics.corners[i] + worldPos, HexMetrics.corners[i + 1] + worldPos);
+                }
             }
         }
     }
 
-    private void CreateCell(int cellH, int cellD, int cellIdx)
+    private void CreateCell(int cellH, int cellD, int cellIdx, Sprite sprite = null)
     {
-        HexCell cell = new HexCell(cellH, cellD);
+        var cell = Instantiate<HexCell>(hexCellPrefab, transform);
+        cell.H = cellH;
+        cell.D = cellD;
+        cell.spriteRenderer.sprite = sprite;
+        cell.transform.SetPositionAndRotation(cell.CellToWorld(), Quaternion.identity);
         cells[cellIdx] = cell;
     }
 }
