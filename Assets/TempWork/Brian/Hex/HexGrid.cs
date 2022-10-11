@@ -49,12 +49,62 @@ public class HexGrid : MonoBehaviour
     //----------------------
     */
 
+    /// <summary>
+    /// A class for storing hex coordinates and converting between other coordinate systems
+    /// </summary>
+    [System.Serializable]
+    private struct HexCoordinates
+    {
+        // Coordinates are immutable once created because the properties are read-only
+        public int H { get; private set; }
+        public int D { get; private set; }
+
+        /*
+         * Constructors
+         */
+        /// <summary>
+        /// Create a HexCoordinates object using our coordinate system.
+        /// </summary>
+        /// <param name="H">Horizontal measurement, increases moving to the right</param>
+        /// <param name="D">Diagonal measurement, increases moving to the top-left</param>
+        public HexCoordinates(int H, int D)
+        {
+            this.H = H;
+            this.D = D;
+        }
+        /// <summary>
+        /// Converts the Axial system from Redblog Games to the system we're using.
+        /// https://www.redblobgames.com/grids/hexagons/#coordinates
+        /// </summary>
+        /// <param name="q">Horizontal measurement, increases moving to the right</param>
+        /// <param name="r">Diagonal measurement, increases moving to the bottom-right</param>
+        /// <returns></returns>
+        public static HexCoordinates FromRedblogAxialCoordinates(int q, int r)
+        {
+            return new HexCoordinates(q, -r);
+        }
+
+        public override string ToString()
+        {
+            return "(" + H.ToString() + ", " + D.ToString() + ")";
+        }
+    }
+
     public static int width = 6;
     public static int height = 6;
 
     private HexMesh hexMesh;
 
-    private HexCell[] cells = new HexCell[height * width];
+    private Dictionary<HexCoordinates, HexCell> cells = new Dictionary<HexCoordinates, HexCell>();
+    private HexCell[] cellsArray
+    {
+        get
+        {
+            HexCell[] arr = new HexCell[cells.Count];
+            cells.Values.CopyTo(arr, 0);
+            return arr;
+        }
+    }
 
     [SerializeField] HexCell hexCellPrefab;
 
@@ -62,12 +112,11 @@ public class HexGrid : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            for (int d = 0, i = 0; d < height; d++)
+            for (int d = 0; d < height; d++)
             {
                 for (int h = 0; h < width; h++)
                 {
-                    CreateCell(h, d, i);
-                    i++;
+                    CreateCell(h, d);
                 }
             }
 
@@ -79,7 +128,9 @@ public class HexGrid : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            hexMesh.Triangulate(cells);
+            hexMesh.Triangulate(cellsArray);
+
+            Destroy(cells[new HexCoordinates(2, 2)].gameObject);
         }
     }
 
@@ -99,13 +150,13 @@ public class HexGrid : MonoBehaviour
         }
     }
 
-    private void CreateCell(int cellH, int cellD, int cellIdx, Sprite sprite = null)
+    private void CreateCell(int cellH, int cellD, Sprite sprite = null)
     {
         var cell = Instantiate<HexCell>(hexCellPrefab, transform);
         cell.H = cellH;
         cell.D = cellD;
         cell.spriteRenderer.sprite = sprite;
         cell.transform.SetPositionAndRotation(cell.CellToWorld(), Quaternion.identity);
-        cells[cellIdx] = cell;
+        cells[new HexCoordinates(cellH, cellD)] = cell;
     }
 }
