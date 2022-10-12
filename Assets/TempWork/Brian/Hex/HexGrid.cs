@@ -12,35 +12,90 @@ public class HexGrid : MonoBehaviour
     //----------------------
     // Unity-like interface
     //----------------------
-    // Grid interface - properties
-    //      none, all inherited or from GridLayout interface
-    // Grid interface - public methods
+    // ##### Grid interface - public methods #####
     /// <summary>
     /// Get the logical center coordinate of a grid cell in local space.
     /// </summary>
     /// <param name="position">The cell coordinates</param>
     /// <returns></returns>
-    //      public Vector3 GetCellCenterLocal(Vector3Int position)
-    //      public Vector3 GetCellCenterWorld(Vector3Int position);
-    // Grid interface - static methods
+    public Vector3 GetCellCenterLocal(Vector3Int position)
+    {
+        HexCell cell = cells[HexCoordinates.FromVector3Int(position)];
+        Vector3 worldPos = cell.CellToWorld();
+        return WorldToLocal(worldPos);
+    }
+    /// <summary>
+    /// Get the logical center coordinate of a grid cell in world space.
+    /// </summary>
+    /// <param name="position">The cell coordinates</param>
+    /// <returns></returns>
+    public Vector3 GetCellCenterWorld(Vector3Int position)
+    {
+        HexCell cell = cells[HexCoordinates.FromVector3Int(position)];
+        return cell.CellToWorld();
+    }
+    // ##### Grid interface - static methods #####
     //      public static Vector3 InverseSwizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
     //      public static Vector3 Swizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
-    // GridLayout interface - properties
-    //      public Vector3 cellGap;
-    //      public GridLayout.CellLayout cellLayout;
-    //      public Vector3 cellSize;
-    //      public GridLayout.CellSwizzle cellSwizzle;
-    // GridLayout interface - public methods
-    //      public Vector3 CellToLocal(Vector3Int cellPosition);
-    //      public Vector3 CellToLocalInterpolated(Vector3 cellPosition);
-    //      public Vector3 CellToWorld(Vector3Int cellPosition);
+    // ##### GridLayout interface - properties #####
+    /// <summary>
+    /// The size of the gap between each cell in the Grid.
+    /// Only non-zero for isometric grids.
+    /// </summary>
+    public Vector3 cellGap = Vector3.zero;
+    /// <summary>
+    /// The layout of the GridLayout.
+    /// The layout determines the conversion of positions from cell space to local space and vice versa.
+    /// </summary>
+    public GridLayout.CellLayout cellLayout = GridLayout.CellLayout.Hexagon;
+    /// <summary>
+    /// The size of each cell in the Grid
+    /// </summary>
+    public Vector3 cellSize { get { return HexMetrics.cellSize; } }
+    /// <summary>
+    /// The cell swizzle for the grid
+    /// </summary>
+    public GridLayout.CellSwizzle cellSwizzle()
+    {
+        return GridLayout.CellSwizzle.XZY;
+    }
+    // ##### GridLayout interface - public methods #####
+    /// <summary>
+    /// For hexagonal grid, is identical to GetCellCenterLocal.
+    /// For rectangular grid, gets the bottom-left coordinate in local space.
+    /// </summary>
+    /// <param name="cellPosition">The cell coordinates</param>
+    /// <returns></returns>
+    public Vector3 CellToLocal(Vector3Int cellPosition) { return GetCellCenterLocal(cellPosition); }
+    /// <summary>
+    /// Converts an interpolated cell position in floats to local position space.
+    /// </summary>
+    /// <param name="cellPosition">Interpolated cell position to convert</param>
+    /// <returns></returns>
+    public Vector3 CellToLocalInterpolated(Vector3 cellPosition)
+    {
+        // FIXME
+        return Vector3.zero;
+    }
+    /// <summary>
+    /// For hexagonal grid, is identical to GetCellCenterWorld.
+    /// For rectangular grid, gets the bottom-left coordinate in world space.
+    /// </summary>
+    /// <param name="cellPosition">The cell coordinates</param>
+    /// <returns></returns>
+    public Vector3 CellToWorld(Vector3Int cellPosition) { return GetCellCenterWorld(cellPosition); }
     //      public Bounds GetBoundsLocal(Vector3Int cellPosition);
     //      public Vector3 GetLayoutCellCenter();
     //      public Vector3Int LocalToCell(Vector3 localPosition);
     //      public Vector3 LocalToCellInterpolated(Vector3 localPosition);
     //      public Vector3 LocalToWorld(Vector3 localPosition);
     //      public Vector3Int WorldToCell(Vector3 worldPosition);
-    //      public Vector3 WorldToLocal(Vector3 worldPosition);
+    /// <summary>
+    /// Converts a world position to local position.
+    /// </summary>
+    /// <param name="worldPosition">World Position to convert.</param>
+    /// <returns></returns>
+    public Vector3 WorldToLocal(Vector3 worldPosition) { return transform.InverseTransformPoint(worldPosition); }
     //----------------------
 
     public static int width = 6;
