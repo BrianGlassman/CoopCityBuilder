@@ -20,6 +20,8 @@ public static class HexMetrics
     // Distance from center to corner, the outer circle radius
     public const float cornerRadius = edgeRadius * 2 / sqrt3;
 
+    public static Vector3 cellSize = new Vector3(2 * edgeRadius, 2 * edgeRadius, 2 * edgeRadius);
+
     // Orient point up because wide-screen monitors encourage left-right thinking
     public static Vector3[] corners =
     {
@@ -30,6 +32,15 @@ public static class HexMetrics
         new Vector3(-edgeRadius, 0f, -0.5f*cornerRadius), // Bottom left
         new Vector3(-edgeRadius, 0f, 0.5f*cornerRadius), // Top left
         new Vector3(0f, 0f, cornerRadius) // Top again to avoid index problems when closing the loop
+    };
+    public static Dictionary<string, Vector3> labelledCorners = new()
+    {
+        { "top", corners[0] },
+        { "top-right", corners[1] },
+        { "bottom-right", corners[2] },
+        { "bottom", corners[3] },
+        { "bottom-left", corners[4] },
+        { "top-left", corners[5] },
     };
 
     public static Vector3 CellToWorld(int cellH, int cellD)
