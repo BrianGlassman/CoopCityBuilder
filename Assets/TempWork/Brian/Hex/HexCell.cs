@@ -12,14 +12,14 @@ public class HexCell : MonoBehaviour
     private Mesh mesh;
     List<Vector3> vertices;
     List<int> triangles; // Indices into the vertex arrays
-    private MeshCollider coll;
     public SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         // Configure the mesh
         {
-            GetComponent<MeshCollider>().sharedMesh = mesh = new Mesh();
+            MeshCollider coll = GetComponent<MeshCollider>();
+            coll.sharedMesh = mesh = new Mesh();
             mesh.name = "Cell Mesh";
             vertices = new List<Vector3>();
             triangles = new List<int>();
@@ -38,6 +38,10 @@ public class HexCell : MonoBehaviour
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
             mesh.RecalculateNormals();
+
+            // FIXME the first mesh is buggy for some reason. Second+ meshes all work fine. First mesh works if the component is disabled then re-enabled
+            coll.enabled = false;
+            coll.enabled = true;
         }
     }
 
