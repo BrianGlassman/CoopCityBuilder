@@ -110,6 +110,7 @@ public class HexGrid : MonoBehaviour
 
     private void Awake()
     {
+        // Create the game-view grid
         if (Application.isPlaying)
         {
             for (int d = 0; d < height; d++)
@@ -139,9 +140,13 @@ public class HexGrid : MonoBehaviour
         {
             for (int h = 0; h < width; h++)
             {
+                // Get the world position
+                var worldPos = HexMetrics.CellToWorld(h, d);
+                // Label the coordinates
+                UnityEditor.Handles.Label(worldPos, "(" + h.ToString() + ", " + d.ToString() + ")");
+                // Draw the hex outline
                 for (int i = 0; i < 6; i++)
                 {
-                    var worldPos = HexMetrics.CellToWorld(h, d);
                     Gizmos.DrawLine(HexMetrics.corners[i] + worldPos, HexMetrics.corners[i + 1] + worldPos);
                 }
             }
