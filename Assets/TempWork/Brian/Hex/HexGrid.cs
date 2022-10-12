@@ -129,8 +129,6 @@ public class HexGrid : MonoBehaviour
         if (Application.isPlaying)
         {
             hexMesh.Triangulate(cellsArray);
-
-            Destroy(cells[new HexCoordinates(2, 2)].gameObject);
         }
     }
 
