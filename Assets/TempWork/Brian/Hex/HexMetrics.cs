@@ -46,9 +46,9 @@ public static class HexMetrics
     public static Vector3 CellToLocal(int cellH, int cellD)
     {
         Vector3 localPos;
-        localPos.x = HexMetrics.edgeRadius * (2 * cellH - cellD);
+        localPos.x = edgeRadius * (2 * cellH - cellD);
         localPos.y = 0;
-        localPos.z = HexMetrics.edgeRadius * (cellD * HexMetrics.sqrt3);
+        localPos.z = edgeRadius * (cellD * sqrt3);
 
         return localPos;
     }
@@ -59,10 +59,27 @@ public static class HexMetrics
     public static Vector3 CellToLocalInterpolated(float cellH, float cellD)
     {
         Vector3 localPos;
-        localPos.x = HexMetrics.edgeRadius * (2 * cellH - cellD);
+        localPos.x = edgeRadius * (2 * cellH - cellD);
         localPos.y = 0;
-        localPos.z = HexMetrics.edgeRadius * (cellD * HexMetrics.sqrt3);
+        localPos.z = edgeRadius * (cellD * sqrt3);
 
         return localPos;
+    }
+
+    public static float[] LocalToCellInterpolated(Vector3 localPos)
+    {
+        // FIXME not tested at all
+        // FIXMELOW There's probably a more efficient way to calculate this
+        float cellD = localPos.z / (edgeRadius * sqrt3);
+        float cellH = (localPos.x / edgeRadius + cellD) / 2.0f;
+        float[] ans = new float[] { cellH, cellD };
+        return ans;
+    }
+    public static int[] LocalToCell(Vector3 localPos)
+    {
+        // FIXME not tested at all
+        var hd = LocalToCellInterpolated(localPos);
+        int[] ans = new int[] { Mathf.RoundToInt(hd[0]), Mathf.RoundToInt(hd[1]) };
+        return ans;
     }
 }

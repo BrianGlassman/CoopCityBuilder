@@ -32,7 +32,7 @@ public class HexGrid : MonoBehaviour
     {
         var coords = HexCoordinates.FromVector3Int(position);
         var local = HexMetrics.CellToLocal(coords);
-        return transform.InverseTransformPoint(local);
+        return LocalToWorld(local);
     }
     // ##### Grid interface - static methods #####
     // TODO public static Vector3 InverseSwizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
@@ -86,10 +86,27 @@ public class HexGrid : MonoBehaviour
     public Vector3 CellToWorld(Vector3Int cellPosition) { return GetCellCenterWorld(cellPosition); }
     // TODO public Bounds GetBoundsLocal(Vector3Int cellPosition);
     // TODO public Vector3 GetLayoutCellCenter();
-    // FIXME public Vector3Int LocalToCell(Vector3 localPosition);
-    // FIXME public Vector3 LocalToCellInterpolated(Vector3 localPosition);
-    // FIXME public Vector3 LocalToWorld(Vector3 localPosition);
-    // FIXME public Vector3Int WorldToCell(Vector3 worldPosition);
+    public Vector3Int LocalToCell(Vector3 localPosition)
+    {
+        // FIXMELOW Not future-proofed against changes in [Vector3 --> cell coordinates] conversion
+        var hd = HexMetrics.LocalToCell(localPosition);
+        return new Vector3Int(hd[0], 0, hd[1]);
+    }
+    public Vector3 LocalToCellInterpolated(Vector3 localPosition)
+    {
+        // FIXMELOW Not future-proofed against changes in [Vector3 --> cell coordinates] conversion
+        var hd = HexMetrics.LocalToCellInterpolated(localPosition);
+        return new Vector3(hd[0], 0, hd[1]);
+    }
+    public Vector3 LocalToWorld(Vector3 localPosition)
+    {
+        return transform.TransformPoint(localPosition);
+    }
+    public Vector3Int WorldToCell(Vector3 worldPosition)
+    {
+        var localPos = WorldToLocal(worldPosition);
+        return LocalToCell(localPos);
+    }
     /// <summary>
     /// Converts a world position to local position.
     /// </summary>
@@ -97,7 +114,7 @@ public class HexGrid : MonoBehaviour
     /// <returns></returns>
     public Vector3 WorldToLocal(Vector3 worldPosition) { return transform.InverseTransformPoint(worldPosition); }
     //----------------------
-
+    
     // Alternate input for Unity-like function
     public Vector3 GetCellCenterLocal(int cellH, int cellD)
     {
@@ -158,15 +175,15 @@ public class HexGrid : MonoBehaviour
                 var localPos = HexMetrics.CellToLocal(h, d);
                 // Label the coordinates
                 UnityEditor.Handles.Label(
-                    transform.TransformPoint(localPos),
+                    LocalToWorld(localPos),
                     "(" + h.ToString() + ", " + d.ToString() + ")"
                 );
                 // Draw the hex outline
                 for (int i = 0; i < 6; i++)
                 {
                     Gizmos.DrawLine(
-                        transform.TransformPoint(HexMetrics.corners[i] + localPos),
-                        transform.TransformPoint(HexMetrics.corners[i + 1] + localPos)
+                        LocalToWorld(HexMetrics.corners[i] + localPos),
+                        LocalToWorld(HexMetrics.corners[i + 1] + localPos)
                     );
                 }
             }
