@@ -13,12 +13,10 @@ using UnityEngine;
 /// </summary>
 public static class HexMetrics
 {
-    public const float sqrt3 = 1.7320508075688772935274463415058723669428052538103806280558069794f;
-
     // Distance from center to edge, the inner circle radius
     public const float edgeRadius = 0.5f;
     // Distance from center to corner, the outer circle radius
-    public const float cornerRadius = edgeRadius * 2 / sqrt3;
+    public const float cornerRadius = edgeRadius * 2 / Utils.sqrt3;
 
     public static Vector3 cellSize = new Vector3(2 * edgeRadius, 2 * edgeRadius, 2 * edgeRadius);
 
@@ -48,7 +46,7 @@ public static class HexMetrics
         Vector3 localPos;
         localPos.x = edgeRadius * (2 * cellH - cellD);
         localPos.y = 0;
-        localPos.z = edgeRadius * (cellD * sqrt3);
+        localPos.z = edgeRadius * (cellD * Utils.sqrt3);
 
         return localPos;
     }
@@ -61,7 +59,7 @@ public static class HexMetrics
         Vector3 localPos;
         localPos.x = edgeRadius * (2 * cellH - cellD);
         localPos.y = 0;
-        localPos.z = edgeRadius * (cellD * sqrt3);
+        localPos.z = edgeRadius * (cellD * Utils.sqrt3);
 
         return localPos;
     }
@@ -70,7 +68,7 @@ public static class HexMetrics
     {
         // FIXME not tested at all
         // FIXMELOW There's probably a more efficient way to calculate this
-        float cellD = localPos.z / (edgeRadius * sqrt3);
+        float cellD = localPos.z / (edgeRadius * Utils.sqrt3);
         float cellH = (localPos.x / edgeRadius + cellD) / 2.0f;
         float[] ans = new float[] { cellH, cellD };
         return ans;

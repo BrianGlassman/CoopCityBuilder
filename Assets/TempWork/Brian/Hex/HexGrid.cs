@@ -12,13 +12,6 @@ using UnityEngine;
 [ExecuteAlways]
 public partial class HexGrid : MonoBehaviour
 {
-    
-    // Alternate input for Unity-like function
-    public Vector3 GetCellCenterLocal(int cellH, int cellD)
-    {
-        return HexMetrics.CellToLocal(cellH, cellD);
-    }
-
     public static int width = 6;
     public static int height = 6;
 
@@ -74,15 +67,15 @@ public partial class HexGrid : MonoBehaviour
                 var localPos = HexMetrics.CellToLocal(h, d);
                 // Label the coordinates
                 UnityEditor.Handles.Label(
-                    _Unity_LocalToWorld(localPos),
+                    Utils.LocalToWorld(transform, localPos),
                     "(" + h.ToString() + ", " + d.ToString() + ")"
                 );
                 // Draw the hex outline
                 for (int i = 0; i < 6; i++)
                 {
                     Gizmos.DrawLine(
-                        _Unity_LocalToWorld(HexMetrics.corners[i] + localPos),
-                        _Unity_LocalToWorld(HexMetrics.corners[i + 1] + localPos)
+                        Utils.LocalToWorld(transform, HexMetrics.corners[i] + localPos),
+                        Utils.LocalToWorld(transform, HexMetrics.corners[i + 1] + localPos)
                     );
                 }
             }
@@ -95,7 +88,9 @@ public partial class HexGrid : MonoBehaviour
         cell.H = cellH;
         cell.D = cellD;
         cell.spriteRenderer.sprite = sprite;
-        cell.transform.SetLocalPositionAndRotation(GetCellCenterLocal(cellH, cellD), Quaternion.identity);
+        cell.transform.SetLocalPositionAndRotation(CellToLocal(cellH, cellD), Quaternion.identity);
         cells[new HexCoordinates(cellH, cellD)] = cell;
     }
+
+    public Vector3 CellToLocal(int cellH, int cellD) { return HexMetrics.CellToLocal(cellH, cellD); }
 }

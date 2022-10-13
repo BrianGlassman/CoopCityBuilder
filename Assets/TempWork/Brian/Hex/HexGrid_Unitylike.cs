@@ -93,7 +93,7 @@ public partial class HexGrid : MonoBehaviour
     }
     public Vector3 _Unity_LocalToWorld(Vector3 localPosition)
     {
-        return transform.TransformPoint(localPosition);
+        return Utils.LocalToWorld(transform, localPosition);
     }
     public Vector3Int _Unity_WorldToCell(Vector3 worldPosition)
     {
@@ -105,6 +105,9 @@ public partial class HexGrid : MonoBehaviour
     /// </summary>
     /// <param name="worldPosition">World Position to convert.</param>
     /// <returns></returns>
-    public Vector3 _Unity_WorldToLocal(Vector3 worldPosition) { return transform.InverseTransformPoint(worldPosition); }
-    //----------------------
+    public Vector3 _Unity_WorldToLocal(Vector3 worldPosition) { return Utils.WorldToLocal(transform, worldPosition); }
+
+    //-------------------------------------------
+    // Alternate inputs for Unity-like functions
+    //-------------------------------------------
 }
