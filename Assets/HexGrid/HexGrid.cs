@@ -12,8 +12,8 @@ using UnityEngine;
 [ExecuteAlways]
 public partial class HexGrid : MonoBehaviour
 {
-    public static int width = 7;
-    public static int height = 7;
+    [SerializeField] private static int width = 7;
+    [SerializeField] private static int height = 7;
 
     private HexMesh hexMesh;
 

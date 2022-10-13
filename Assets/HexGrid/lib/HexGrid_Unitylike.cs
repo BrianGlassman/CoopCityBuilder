@@ -35,19 +35,20 @@ public partial class HexGrid : MonoBehaviour
     /// The size of the gap between each cell in the Grid.
     /// Only non-zero for isometric grids.
     /// </summary>
-    public Vector3 _Unity_cellGap = Vector3.zero;
+    [HideInInspector] public Vector3 _Unity_cellGap = Vector3.zero;
     /// <summary>
     /// The layout of the GridLayout.
     /// The layout determines the conversion of positions from cell space to local space and vice versa.
     /// </summary>
-    public GridLayout.CellLayout _Unity_cellLayout = GridLayout.CellLayout.Hexagon;
+    [HideInInspector] public GridLayout.CellLayout _Unity_cellLayout = GridLayout.CellLayout.Hexagon;
     /// <summary>
     /// The size of each cell in the Grid
     /// </summary>
-    public Vector3 _Unity_cellSize { get { return HexMetrics.cellSize; } }
+    [HideInInspector] public Vector3 _Unity_cellSize { get { return HexMetrics.cellSize; } }
     /// <summary>
     /// The cell swizzle for the grid
     /// </summary>
+    [HideInInspector]
     public GridLayout.CellSwizzle _Unity_cellSwizzle()
     {
         return GridLayout.CellSwizzle.XZY;
