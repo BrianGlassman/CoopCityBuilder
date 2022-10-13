@@ -12,8 +12,8 @@ using UnityEngine;
 [ExecuteAlways]
 public partial class HexGrid : MonoBehaviour
 {
-    public static int width = 6;
-    public static int height = 6;
+    public static int width = 7;
+    public static int height = 7;
 
     private HexMesh hexMesh;
 
@@ -35,9 +35,9 @@ public partial class HexGrid : MonoBehaviour
         // Create the game-view grid
         if (Application.isPlaying)
         {
-            for (int d = 0; d < height; d++)
+            for (int d = Mathf.CeilToInt(-height / 2.0f); d < Mathf.CeilToInt(height / 2.0f); d++)
             {
-                for (int h = 0; h < width; h++)
+                for (int h = Mathf.CeilToInt(-width / 2.0f); h < Mathf.CeilToInt(width / 2.0f); h++)
                 {
                     CreateCell(h, d);
                 }
@@ -58,9 +58,9 @@ public partial class HexGrid : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        for (int d = 0; d < height; d++)
+        for (int d = Mathf.CeilToInt(-height / 2.0f); d < Mathf.CeilToInt(height / 2.0f); d++)
         {
-            for (int h = 0; h < width; h++)
+            for (int h = Mathf.CeilToInt(-width / 2.0f); h < Mathf.CeilToInt(width / 2.0f); h++)
             {
                 // Get the world position
                 var localPos = HexMetrics.CellToLocal(h, d);
