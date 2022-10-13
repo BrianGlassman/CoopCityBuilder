@@ -35,8 +35,8 @@ public class HexGrid : MonoBehaviour
         return transform.InverseTransformPoint(local);
     }
     // ##### Grid interface - static methods #####
-    //      public static Vector3 InverseSwizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
-    //      public static Vector3 Swizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
+    // TODO public static Vector3 InverseSwizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
+    // TODO public static Vector3 Swizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
     // ##### GridLayout interface - properties #####
     /// <summary>
     /// The size of the gap between each cell in the Grid.
@@ -74,8 +74,8 @@ public class HexGrid : MonoBehaviour
     /// <returns></returns>
     public Vector3 CellToLocalInterpolated(Vector3 cellPosition)
     {
-        // FIXME
-        return Vector3.zero;
+        // FIXMELOW Not future-proofed against changes in [Vector3 --> cell coordinates] conversion
+        return HexMetrics.CellToLocalInterpolated(cellPosition[0], cellPosition[1]);
     }
     /// <summary>
     /// For hexagonal grid, is identical to GetCellCenterWorld.
@@ -84,12 +84,12 @@ public class HexGrid : MonoBehaviour
     /// <param name="cellPosition">The cell coordinates</param>
     /// <returns></returns>
     public Vector3 CellToWorld(Vector3Int cellPosition) { return GetCellCenterWorld(cellPosition); }
-    //      public Bounds GetBoundsLocal(Vector3Int cellPosition);
-    //      public Vector3 GetLayoutCellCenter();
-    //      public Vector3Int LocalToCell(Vector3 localPosition);
-    //      public Vector3 LocalToCellInterpolated(Vector3 localPosition);
-    //      public Vector3 LocalToWorld(Vector3 localPosition);
-    //      public Vector3Int WorldToCell(Vector3 worldPosition);
+    // TODO public Bounds GetBoundsLocal(Vector3Int cellPosition);
+    // TODO public Vector3 GetLayoutCellCenter();
+    // FIXME public Vector3Int LocalToCell(Vector3 localPosition);
+    // FIXME public Vector3 LocalToCellInterpolated(Vector3 localPosition);
+    // FIXME public Vector3 LocalToWorld(Vector3 localPosition);
+    // FIXME public Vector3Int WorldToCell(Vector3 worldPosition);
     /// <summary>
     /// Converts a world position to local position.
     /// </summary>

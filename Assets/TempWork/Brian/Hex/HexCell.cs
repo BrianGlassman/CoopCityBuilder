@@ -37,7 +37,7 @@ public class HexCell : MonoBehaviour
             mesh.triangles = triangles.ToArray();
             mesh.RecalculateNormals();
 
-            // FIXME the first mesh is buggy for some reason. Second+ meshes all work fine. First mesh works if the component is disabled then re-enabled
+            // FIXMELOW Hacky workaround. The first mesh is buggy for some reason. Second+ meshes all work fine. First mesh works if the component is disabled then re-enabled
             coll.enabled = false;
             coll.enabled = true;
         }
