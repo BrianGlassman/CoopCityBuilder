@@ -43,13 +43,26 @@ public static class HexMetrics
         { "top-left", corners[5] },
     };
 
-    public static Vector3 CellToWorld(int cellH, int cellD)
+    public static Vector3 CellToLocal(int cellH, int cellD)
     {
-        Vector3 worldPos;
-        worldPos.x = HexMetrics.edgeRadius * (2 * cellH - cellD);
-        worldPos.y = 0;
-        worldPos.z = HexMetrics.edgeRadius * (cellD * HexMetrics.sqrt3);
+        Vector3 localPos;
+        localPos.x = HexMetrics.edgeRadius * (2 * cellH - cellD);
+        localPos.y = 0;
+        localPos.z = HexMetrics.edgeRadius * (cellD * HexMetrics.sqrt3);
 
-        return worldPos;
+        return localPos;
+    }
+    public static Vector3 CellToLocal(HexCoordinates coords)
+    {
+        return CellToLocal(coords.H, coords.D);
+    }
+    public static Vector3 CellToLocalInterpolated(float cellH, float cellD)
+    {
+        Vector3 localPos;
+        localPos.x = HexMetrics.edgeRadius * (2 * cellH - cellD);
+        localPos.y = 0;
+        localPos.z = HexMetrics.edgeRadius * (cellD * HexMetrics.sqrt3);
+
+        return localPos;
     }
 }

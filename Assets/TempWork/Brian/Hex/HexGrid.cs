@@ -20,9 +20,8 @@ public class HexGrid : MonoBehaviour
     /// <returns></returns>
     public Vector3 GetCellCenterLocal(Vector3Int position)
     {
-        HexCell cell = cells[HexCoordinates.FromVector3Int(position)];
-        Vector3 worldPos = cell.CellToWorld();
-        return WorldToLocal(worldPos);
+        var coords = HexCoordinates.FromVector3Int(position);
+        return HexMetrics.CellToLocal(coords);
     }
     /// <summary>
     /// Get the logical center coordinate of a grid cell in world space.
@@ -31,8 +30,9 @@ public class HexGrid : MonoBehaviour
     /// <returns></returns>
     public Vector3 GetCellCenterWorld(Vector3Int position)
     {
-        HexCell cell = cells[HexCoordinates.FromVector3Int(position)];
-        return cell.CellToWorld();
+        var coords = HexCoordinates.FromVector3Int(position);
+        var local = HexMetrics.CellToLocal(coords);
+        return transform.InverseTransformPoint(local);
     }
     // ##### Grid interface - static methods #####
     //      public static Vector3 InverseSwizzle(GridLayout.CellSwizzle swizzle, Vector3 position);
@@ -98,6 +98,12 @@ public class HexGrid : MonoBehaviour
     public Vector3 WorldToLocal(Vector3 worldPosition) { return transform.InverseTransformPoint(worldPosition); }
     //----------------------
 
+    // Alternate input for Unity-like function
+    public Vector3 GetCellCenterLocal(int cellH, int cellD)
+    {
+        return HexMetrics.CellToLocal(cellH, cellD);
+    }
+
     public static int width = 6;
     public static int height = 6;
 
@@ -149,13 +155,19 @@ public class HexGrid : MonoBehaviour
             for (int h = 0; h < width; h++)
             {
                 // Get the world position
-                var worldPos = HexMetrics.CellToWorld(h, d);
+                var localPos = HexMetrics.CellToLocal(h, d);
                 // Label the coordinates
-                UnityEditor.Handles.Label(worldPos, "(" + h.ToString() + ", " + d.ToString() + ")");
+                UnityEditor.Handles.Label(
+                    transform.TransformPoint(localPos),
+                    "(" + h.ToString() + ", " + d.ToString() + ")"
+                );
                 // Draw the hex outline
                 for (int i = 0; i < 6; i++)
                 {
-                    Gizmos.DrawLine(HexMetrics.corners[i] + worldPos, HexMetrics.corners[i + 1] + worldPos);
+                    Gizmos.DrawLine(
+                        transform.TransformPoint(HexMetrics.corners[i] + localPos),
+                        transform.TransformPoint(HexMetrics.corners[i + 1] + localPos)
+                    );
                 }
             }
         }
@@ -167,7 +179,7 @@ public class HexGrid : MonoBehaviour
         cell.H = cellH;
         cell.D = cellD;
         cell.spriteRenderer.sprite = sprite;
-        cell.transform.SetPositionAndRotation(cell.CellToWorld(), Quaternion.identity);
+        cell.transform.SetLocalPositionAndRotation(GetCellCenterLocal(cellH, cellD), Quaternion.identity);
         cells[new HexCoordinates(cellH, cellD)] = cell;
     }
 }

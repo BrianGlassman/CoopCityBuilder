@@ -6,7 +6,7 @@ using UnityEngine;
 /// A class for storing hex coordinates and converting between other coordinate systems
 /// </summary>
 [System.Serializable]
-struct HexCoordinates
+public struct HexCoordinates
 {
     // Coordinates are immutable once created because the properties are read-only
     public int H { get; private set; }

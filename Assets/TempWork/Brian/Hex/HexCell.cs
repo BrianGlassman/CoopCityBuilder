@@ -25,13 +25,11 @@ public class HexCell : MonoBehaviour
             triangles = new List<int>();
             // Triangulate
             {
-                var center = CellToWorld();
                 for (int i = 0; i < 6; i++)
                 {
                     AddTriangle(
-                        center,
-                        center + HexMetrics.corners[i],
-                        center + HexMetrics.corners[i + 1]
+                        HexMetrics.corners[i],
+                        HexMetrics.corners[i + 1]
                     );
                 }
             }
@@ -46,26 +44,20 @@ public class HexCell : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds a triangle to the mesh with vertices at the given locations
+    /// Adds a triangle to the mesh with vertices at the given locations and {0, 0, 0}
     /// Vertices must be given in order
     /// </summary>
-    /// <param name="v1"></param>
     /// <param name="v2"></param>
     /// <param name="v3"></param>
-    void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
+    void AddTriangle(Vector3 v2, Vector3 v3)
     {
         // First index for the new triangles, starting at the end of the existing ones
         int firstIndex = vertices.Count;
         triangles.Add(firstIndex);
         triangles.Add(firstIndex + 1);
         triangles.Add(firstIndex + 2);
-        vertices.Add(v1);
+        vertices.Add(Vector3.zero);
         vertices.Add(v2);
         vertices.Add(v3);
-    }
-
-    public Vector3 CellToWorld()
-    {
-        return HexMetrics.CellToWorld(H, D);
     }
 }

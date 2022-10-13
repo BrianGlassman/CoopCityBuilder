@@ -62,7 +62,7 @@ public class HexMesh : MonoBehaviour
     }
     private void Triangulate(HexCell cell)
     {
-        var center = cell.CellToWorld();
+        var center = HexMetrics.CellToLocal(cell.H, cell.D);
         for (int i = 0; i < 6; i++)
         {
             AddTriangle(
