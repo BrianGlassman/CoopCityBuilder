@@ -57,7 +57,6 @@ public partial class HexGrid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // FIXME use non-Unity interface
         Gizmos.color = Color.white;
         for (int d = 0; d < height; d++)
         {
