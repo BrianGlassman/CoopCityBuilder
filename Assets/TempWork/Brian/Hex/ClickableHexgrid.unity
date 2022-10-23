@@ -270,9 +270,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 1440222920}
   toBuild: {fileID: 0}
-  red: {fileID: 21300000, guid: 6f56a0048a8c33a4a8ccc25ae242ead6, type: 3}
-  blue: {fileID: 21300000, guid: 9649296b33a404d4fbe176c171588d9f, type: 3}
-  green: {fileID: 21300000, guid: 6f9a5ede4cf1859428b1a96601c41cd6, type: 3}
+  buildPairs:
+  - key: 98
+    building: {fileID: 21300000, guid: 9649296b33a404d4fbe176c171588d9f, type: 3}
+  - key: 114
+    building: {fileID: 21300000, guid: 6f56a0048a8c33a4a8ccc25ae242ead6, type: 3}
+  - key: 103
+    building: {fileID: 21300000, guid: 6f9a5ede4cf1859428b1a96601c41cd6, type: 3}
 --- !u!1 &1655549255
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,34 +6,34 @@ public class Clicker : MonoBehaviour
 {
     [SerializeField] private HexGrid grid;
 
+    // TODO make readonly using this: https://answers.unity.com/questions/489942/how-to-make-a-readonly-property-in-inspector.html
     [SerializeField] private Sprite toBuild;
 
-    [SerializeField] private Sprite red;
-    [SerializeField] private Sprite blue;
-    [SerializeField] private Sprite green;
+    [System.Serializable]
+    class BuildPair
+    {
+        public KeyCode key;
+        public Sprite building;
+    }
+    [SerializeField] List<BuildPair> buildPairs;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        foreach (BuildPair pair in buildPairs)
         {
-            toBuild = red;
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            toBuild = green;
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            toBuild = blue;
+            if (Input.GetKeyDown(pair.key))
+            {
+                toBuild = pair.building;
+            }
         }
 
         if (Input.GetMouseButton(0))
         {
-            HandleInput();
+            HandleClick();
         }
     }
 
-    private void HandleInput()
+    private void HandleClick()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
