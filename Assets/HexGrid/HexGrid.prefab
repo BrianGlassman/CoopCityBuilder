@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9151171275138805181}
   - component: {fileID: 9151171275138805180}
+  - component: {fileID: 981356012175235835}
   m_Layer: 0
   m_Name: HexGrid
   m_TagString: Untagged
@@ -144,3 +145,24 @@ MonoBehaviour:
   hexCellPrefab: {fileID: 1231198809738099738, guid: 0be85f4223d70dd458fabe3580228e13, type: 3}
   _Unity_cellGap: {x: 0, y: 0, z: 0}
   _Unity_cellLayout: 1
+--- !u!114 &981356012175235835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9151171275138805171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30f5523ab057904a803606597bf5aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 9151171275138805180}
+  toBuild: {fileID: 0}
+  buildPairs:
+  - key: 98
+    building: {fileID: 21300000, guid: 9649296b33a404d4fbe176c171588d9f, type: 3}
+  - key: 114
+    building: {fileID: 21300000, guid: 6f56a0048a8c33a4a8ccc25ae242ead6, type: 3}
+  - key: 103
+    building: {fileID: 21300000, guid: 6f9a5ede4cf1859428b1a96601c41cd6, type: 3}
