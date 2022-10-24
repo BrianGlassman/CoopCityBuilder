@@ -55,6 +55,7 @@ public partial class HexGrid : MonoBehaviour
         }
     }
 
+    #if UNITY_EDITOR // UnityEditor isn't available in builds, so enclose it to avoid errors
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -80,6 +81,7 @@ public partial class HexGrid : MonoBehaviour
             }
         }
     }
+    #endif
 
     private void CreateCell(int cellH, int cellD, Sprite sprite = null)
     {
