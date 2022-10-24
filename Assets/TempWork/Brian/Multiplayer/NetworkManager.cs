@@ -7,17 +7,20 @@ using UnityEngine;
 
 public class NetworkManager : Mirror.NetworkManager
 {
+    /* Not used for now, might use later
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-
-        print("I connected");
     }
+    */
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
+        // Run the base version
         base.OnServerAddPlayer(conn);
 
-        print($"Added player, count is now {numPlayers}");
+        // Get the player and assign a name
+        NetworkPlayer player =  conn.identity.GetComponent<NetworkPlayer>();
+        player.SetDisplayName($"Player {numPlayers}");
     }
 }
