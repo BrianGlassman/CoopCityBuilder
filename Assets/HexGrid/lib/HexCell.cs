@@ -12,10 +12,13 @@ public class HexCell : MonoBehaviour
     private Mesh mesh;
     List<Vector3> vertices;
     List<int> triangles; // Indices into the vertex arrays
-    public SpriteRenderer spriteRenderer;
+
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         // Configure the mesh
         {
             MeshCollider coll = GetComponent<MeshCollider>();
@@ -59,5 +62,14 @@ public class HexCell : MonoBehaviour
         vertices.Add(Vector3.zero);
         vertices.Add(v2);
         vertices.Add(v3);
+    }
+
+    /// <summary>
+    /// Sets the model used by this cell
+    /// </summary>
+    /// <param name="sprite"></param>
+    public void SetModel(Sprite sprite)
+    {
+        spriteRenderer.sprite = sprite;
     }
 }

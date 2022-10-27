@@ -42,7 +42,7 @@ public class Clicker : MonoBehaviour
             HexCell cell;
             if (hit.collider.TryGetComponent<HexCell>(out cell))
             {
-                cell.spriteRenderer.sprite = toBuild;
+                cell.SetModel(toBuild);
             }
         }
     }

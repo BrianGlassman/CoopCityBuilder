@@ -88,7 +88,7 @@ public partial class HexGrid : MonoBehaviour
         var cell = Instantiate<HexCell>(hexCellPrefab, transform);
         cell.H = cellH;
         cell.D = cellD;
-        cell.spriteRenderer.sprite = sprite;
+        cell.SetModel(sprite);
         cell.transform.SetLocalPositionAndRotation(CellToLocal(cellH, cellD), Quaternion.identity);
         cells[new HexCoordinates(cellH, cellD)] = cell;
     }

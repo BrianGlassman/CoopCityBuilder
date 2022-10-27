@@ -133,7 +133,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   H: 0
   D: 0
-  spriteRenderer: {fileID: 7597847938961460555}
 --- !u!33 &3510402489090140646
 MeshFilter:
   m_ObjectHideFlags: 0
