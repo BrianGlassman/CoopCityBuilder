@@ -8,12 +8,20 @@ public class HexCell : MonoBehaviour
     // See HexMetrics for coordinate system explanation
     public int H;
     public int D;
+    public HexCoordinates coords
+    {
+        get
+        {
+            return new HexCoordinates(H, D);
+        }
+    }
 
     private Mesh mesh;
     List<Vector3> vertices;
     List<int> triangles; // Indices into the vertex arrays
 
     private SpriteRenderer spriteRenderer;
+    private Sprite sprite;
 
     private void Awake()
     {

@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Clicker : MonoBehaviour
+public class Clicker : Mirror.NetworkBehaviour
 {
+    public int test = 0;
+
+
+
     [SerializeField] private HexGrid grid;
 
     // TODO make readonly using this: https://answers.unity.com/questions/489942/how-to-make-a-readonly-property-in-inspector.html
@@ -42,8 +46,23 @@ public class Clicker : MonoBehaviour
             HexCell cell;
             if (hit.collider.TryGetComponent<HexCell>(out cell))
             {
-                cell.SetModel(toBuild);
+                // CmdSetCellModel(cell.coords, toBuild);
+                CmdTest(cell.H);
             }
         }
     }
+
+
+    [Mirror.Command(requiresAuthority = false)]
+    public void CmdTest(int val)
+    {
+        test = val;
+    }
+
+    //[Mirror.Command(requiresAuthority = false)]
+    //public void CmdSetCellModel(HexCoordinates coords, Sprite toBuild)
+    //{
+    //    HexCell cell = grid.GetCell(coords);
+    //    cell.SetModel(toBuild);
+    //}
 }

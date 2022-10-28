@@ -32,7 +32,12 @@ public partial class HexGrid : MonoBehaviour
 
     private void Awake()
     {
+    }
+
+    private void Start()
+    {
         // Create the game-view grid
+        // NOTE: for some reason this has to happen in Start, not Awake (see https://github.com/vis2k/Mirror/issues/941)
         if (Application.isPlaying)
         {
             for (int d = Mathf.CeilToInt(-height / 2.0f); d < Mathf.CeilToInt(height / 2.0f); d++)
@@ -45,10 +50,7 @@ public partial class HexGrid : MonoBehaviour
 
             hexMesh = GetComponentInChildren<HexMesh>();
         }
-    }
 
-    private void Start()
-    {
         if (Application.isPlaying)
         {
             hexMesh.Triangulate(cellsArray);
@@ -94,4 +96,9 @@ public partial class HexGrid : MonoBehaviour
     }
 
     public Vector3 CellToLocal(int cellH, int cellD) { return HexMetrics.CellToLocal(cellH, cellD); }
+
+    public HexCell GetCell(HexCoordinates coords)
+    {
+        return cells[coords];
+    }
 }

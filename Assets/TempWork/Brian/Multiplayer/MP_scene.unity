@@ -130,6 +130,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6858745524803274957, guid: c320376e51070ad4c9be1cda3fae024f, type: 3}
+      propertyPath: sceneId
+      value: 3463407117
+      objectReference: {fileID: 0}
+    - target: {fileID: 6858745524803274957, guid: c320376e51070ad4c9be1cda3fae024f, type: 3}
+      propertyPath: visible
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9151171275138805171, guid: c320376e51070ad4c9be1cda3fae024f, type: 3}
       propertyPath: m_Name
       value: HexGrid
