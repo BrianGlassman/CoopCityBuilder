@@ -10,7 +10,7 @@ using UnityEngine;
 /// "_Unity_".
 /// </summary>
 [ExecuteAlways]
-public partial class HexGrid : MonoBehaviour
+public partial class HexGrid : Mirror.NetworkBehaviour
 {
     [SerializeField] private static int width = 7;
     [SerializeField] private static int height = 7;
@@ -100,5 +100,19 @@ public partial class HexGrid : MonoBehaviour
     public HexCell GetCell(HexCoordinates coords)
     {
         return cells[coords];
+    }
+
+    [Mirror.ClientRpc]
+    public void RpcSetCell(int H, int D, KeyCode key)
+    {
+        HexCell cell = GetCell(new HexCoordinates(H, D));
+
+        foreach (KeyValuePair<KeyCode, Sprite> pair in BuildPairs.inst.buildPairs)
+        {
+            if (pair.Key == key)
+            {
+                cell.SetModel(pair.Value);
+            }
+        }
     }
 }

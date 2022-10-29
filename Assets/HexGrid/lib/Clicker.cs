@@ -4,30 +4,18 @@ using UnityEngine;
 
 public class Clicker : Mirror.NetworkBehaviour
 {
-    public int test = 0;
-
-
-
-    [SerializeField] private HexGrid grid;
+    [SerializeField] public HexGrid grid;
 
     // TODO make readonly using this: https://answers.unity.com/questions/489942/how-to-make-a-readonly-property-in-inspector.html
-    [SerializeField] private Sprite toBuild;
-
-    [System.Serializable]
-    class BuildPair
-    {
-        public KeyCode key;
-        public Sprite building;
-    }
-    [SerializeField] List<BuildPair> buildPairs;
+    [SerializeField] private KeyCode toBuild;
 
     private void Update()
     {
-        foreach (BuildPair pair in buildPairs)
+        foreach (KeyValuePair<KeyCode, Sprite> pair in BuildPairs.inst.buildPairs)
         {
-            if (Input.GetKeyDown(pair.key))
+            if (Input.GetKeyDown(pair.Key))
             {
-                toBuild = pair.building;
+                toBuild = pair.Key;
             }
         }
 
@@ -39,6 +27,11 @@ public class Clicker : Mirror.NetworkBehaviour
 
     private void HandleClick()
     {
+        if (toBuild == KeyCode.None)
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
@@ -46,23 +39,14 @@ public class Clicker : Mirror.NetworkBehaviour
             HexCell cell;
             if (hit.collider.TryGetComponent<HexCell>(out cell))
             {
-                // CmdSetCellModel(cell.coords, toBuild);
-                CmdTest(cell.H);
+                CmdSetCellModel(cell.H, cell.D, toBuild);
             }
         }
     }
 
-
     [Mirror.Command(requiresAuthority = false)]
-    public void CmdTest(int val)
+    public void CmdSetCellModel(int H, int D, KeyCode toBuild)
     {
-        test = val;
+        grid.RpcSetCell(H, D, toBuild);
     }
-
-    //[Mirror.Command(requiresAuthority = false)]
-    //public void CmdSetCellModel(HexCoordinates coords, Sprite toBuild)
-    //{
-    //    HexCell cell = grid.GetCell(coords);
-    //    cell.SetModel(toBuild);
-    //}
 }

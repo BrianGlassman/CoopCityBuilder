@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // A wrapper to allow calling a HexGrid as if it were a Unity Grid object
-public partial class HexGrid : MonoBehaviour
+public partial class HexGrid : Mirror.NetworkBehaviour
 {
     // ##### Grid interface - public methods #####
     /// <summary>

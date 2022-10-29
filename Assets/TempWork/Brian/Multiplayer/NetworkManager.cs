@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class NetworkManager : Mirror.NetworkManager
 {
+    [SerializeField] HexGrid grid;
+
     /* Not used for now, might use later
     public override void OnClientConnect()
     {
@@ -22,5 +24,7 @@ public class NetworkManager : Mirror.NetworkManager
         // Get the player and assign a name
         NetworkPlayer player =  conn.identity.GetComponent<NetworkPlayer>();
         player.SetDisplayName($"Player {numPlayers}");
+
+        player.GetComponent<Clicker>().grid = grid;
     }
 }
