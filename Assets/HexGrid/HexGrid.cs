@@ -12,8 +12,7 @@ using UnityEngine;
 [ExecuteAlways]
 public partial class HexGrid : MonoBehaviour
 {
-    [SerializeField] private static int width = 7;
-    [SerializeField] private static int height = 7;
+    [SerializeField] private static int radius = 3;
 
     private HexMesh hexMesh;
 
@@ -35,10 +34,12 @@ public partial class HexGrid : MonoBehaviour
         // Create the game-view grid
         if (Application.isPlaying)
         {
-            for (int d = Mathf.CeilToInt(-height / 2.0f); d < Mathf.CeilToInt(height / 2.0f); d++)
+            for (int d = -radius; d <= radius; d++)
             {
-                for (int h = Mathf.CeilToInt(-width / 2.0f); h < Mathf.CeilToInt(width / 2.0f); h++)
+                for (int h = -radius; h <= radius; h++)
                 {
+                    if (HexMetrics.Distance(new HexCoordinates(h, d), HexCoordinates.zero) > radius)
+                        continue;
                     CreateCell(h, d);
                 }
             }
@@ -59,10 +60,13 @@ public partial class HexGrid : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        for (int d = Mathf.CeilToInt(-height / 2.0f); d < Mathf.CeilToInt(height / 2.0f); d++)
+        for (int d = -radius; d <= radius; d++)
         {
-            for (int h = Mathf.CeilToInt(-width / 2.0f); h < Mathf.CeilToInt(width / 2.0f); h++)
+            for (int h = -radius; h <= radius; h++)
             {
+                if (HexMetrics.Distance(new HexCoordinates(h, d), HexCoordinates.zero) > radius)
+                    continue;
+
                 // Get the world position
                 var localPos = HexMetrics.CellToLocal(h, d);
                 // Label the coordinates

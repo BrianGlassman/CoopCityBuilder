@@ -15,6 +15,7 @@ public struct HexCoordinates
     /*
      * Constructors
      */
+    public static HexCoordinates zero = new HexCoordinates(0, 0);
     /// <summary>
     /// Create a HexCoordinates object using our coordinate system.
     /// </summary>

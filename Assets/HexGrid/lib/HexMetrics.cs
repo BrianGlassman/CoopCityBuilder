@@ -80,4 +80,13 @@ public static class HexMetrics
         int[] ans = new int[] { Mathf.RoundToInt(hd[0]), Mathf.RoundToInt(hd[1]) };
         return ans;
     }
+
+    public static float Distance(HexCoordinates a, HexCoordinates b)
+    {
+        return (
+            Mathf.Abs(a.H - b.H) + // Distance in H
+            Mathf.Abs((a.H - a.D) - (b.H - b.D)) + // Off-axis distance
+            Mathf.Abs(a.D - b.D)) // Distance in D
+            / 2;
+    }
 }
