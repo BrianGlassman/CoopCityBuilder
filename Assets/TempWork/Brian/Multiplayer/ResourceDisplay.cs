@@ -13,7 +13,7 @@ public class ResourceDisplay : MonoBehaviour
 
     private void Awake()
     {
-        TMP = GetComponent<TMPro.TextMeshProUGUI>();
+        TMP = GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
     private void Update()
