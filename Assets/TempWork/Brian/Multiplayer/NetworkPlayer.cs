@@ -5,14 +5,6 @@ using UnityEngine;
 public class NetworkPlayer : Mirror.NetworkBehaviour
 {
     #region Resources
-    public enum ResourceType
-    {
-        maxWorkers, freeWorkers,
-        housing, population,
-        food,
-        lumber,
-    };
-
     // TODO remove this block once we don't need it for debugging anymore
     [SerializeField] private ResourceType SetResource = ResourceType.food;
     [SerializeField] private int Value = 5;

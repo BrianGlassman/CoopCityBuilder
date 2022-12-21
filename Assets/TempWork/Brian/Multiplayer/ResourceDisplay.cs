@@ -42,13 +42,13 @@ public class ResourceDisplay : MonoBehaviour
         TMP.text = text;
     }
 
-    private void HandleResourceUpdate(Dictionary<NetworkPlayer.ResourceType, int> vals)
+    private void HandleResourceUpdate(Dictionary<ResourceType, int> vals)
     {
         SetText(
-            $"Workers: {vals[NetworkPlayer.ResourceType.freeWorkers]}/{vals[NetworkPlayer.ResourceType.maxWorkers]}" +
-            $"\nPopulation: {vals[NetworkPlayer.ResourceType.population]}/{vals[NetworkPlayer.ResourceType.housing]}" +
-            $"\nFood: {vals[NetworkPlayer.ResourceType.food]}" +
-            $"\nLumber: {vals[NetworkPlayer.ResourceType.lumber]}"
+            $"Workers: {vals[ResourceType.freeWorkers]}/{vals[ResourceType.maxWorkers]}" +
+            $"\nPopulation: {vals[ResourceType.population]}/{vals[ResourceType.housing]}" +
+            $"\nFood: {vals[ResourceType.food]}" +
+            $"\nLumber: {vals[ResourceType.lumber]}"
             );
     }
 }
