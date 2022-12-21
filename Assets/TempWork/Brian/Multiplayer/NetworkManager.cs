@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Gamedev.TV corse - Unity Multiplayer: Intermediate C# Coding & Networking
+// Gamedev.TV course - Unity Multiplayer: Intermediate C# Coding & Networking
 
 public class NetworkManager : Mirror.NetworkManager
 {
