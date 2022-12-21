@@ -5,12 +5,6 @@ using UnityEngine;
 public class NetworkPlayer : Mirror.NetworkBehaviour
 {
     #region Resources
-    // TODO remove this block once we don't need it for debugging anymore
-    [SerializeField] private ResourceType SetResource = ResourceType.food;
-    [SerializeField] private int Value = 5;
-    [SerializeField] private bool Go;
-    // end block
-
     private readonly Mirror.SyncDictionary<ResourceType, int> resources = new()
     {
         { ResourceType.maxWorkers, 0 },
@@ -45,16 +39,5 @@ public class NetworkPlayer : Mirror.NetworkBehaviour
     private void OnResourceChange(Mirror.SyncDictionary<ResourceType, int>.Operation op, ResourceType type, int val)
     {
         ClientOnResourceUpdated?.Invoke(GetResources());
-    }
-
-    private void Update()
-    {
-        // TODO remove this block once we don't need it for debugging anymore
-        if (Go)
-        {
-            resources[SetResource] = Value;
-            Go = false;
-            print($"Set {SetResource} to {Value}");
-        }
     }
 }
